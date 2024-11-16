@@ -22,6 +22,7 @@ import io.netty.channel.unix.DomainSocketAddress;
 import io.netty.channel.unix.ServerDomainSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketServerCompressionHandler;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.util.internal.logging.InternalLoggerFactory;
@@ -124,6 +125,7 @@ public abstract class BaseServer {
             final ChannelPipeline pipeline = ch.pipeline();
             pipeline.addLast(new HttpServerCodec());
             pipeline.addLast(new HttpObjectAggregator(1024 * 1024 * 64));
+            pipeline.addLast(new WebSocketServerCompressionHandler());
             pipeline.addLast(new WebSocketHandler());
             pipeline.addLast(new ServerHandler());
         }
