@@ -124,7 +124,7 @@ public abstract class BaseServer {
         public void initChannel(final Channel ch) {
             final ChannelPipeline pipeline = ch.pipeline();
             pipeline.addLast(new HttpServerCodec());
-            pipeline.addLast(new HttpObjectAggregator(1024 * 1024 * 1024 * 5));
+            pipeline.addLast(new HttpObjectAggregator(Integer.MAX_VALUE));
             pipeline.addLast(new WebSocketServerCompressionHandler());
             pipeline.addLast(new WebSocketHandler());
             pipeline.addLast(new ServerHandler());
