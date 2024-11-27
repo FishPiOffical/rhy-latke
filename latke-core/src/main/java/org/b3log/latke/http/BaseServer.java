@@ -25,6 +25,8 @@ import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketServerCompressionHandler;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.netty.handler.timeout.WriteTimeoutHandler;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 import io.netty.util.internal.logging.Log4J2LoggerFactory;
 import org.apache.logging.log4j.Level;
@@ -123,6 +125,8 @@ public abstract class BaseServer {
         @Override
         public void initChannel(final Channel ch) {
             final ChannelPipeline pipeline = ch.pipeline();
+            pipeline.addLast(new ReadTimeoutHandler(12, TimeUnit.HOURS));
+            pipeline.addLast(new WriteTimeoutHandler(12, TimeUnit.HOURS));
             pipeline.addLast(new HttpServerCodec());
             pipeline.addLast(new HttpObjectAggregator(Integer.MAX_VALUE));
             pipeline.addLast(new WebSocketServerCompressionHandler());
