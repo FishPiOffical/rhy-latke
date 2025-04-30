@@ -98,7 +98,12 @@ public final class Requests {
      * @return the IP address of the end-client sent the specified request
      */
     public static String getRemoteAddr(final Request request) {
-        String ret = request.getHeader("Ali-CDN-Real-IP");
+        String ret = request.getHeader("X-Waf-Ip");
+        if (StringUtils.isNotBlank(ret)) {
+            return ret;
+        }
+
+        ret = request.getHeader("Ali-CDN-Real-IP");
         if (StringUtils.isNotBlank(ret)) {
             return ret;
         }
