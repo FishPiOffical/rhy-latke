@@ -23,6 +23,7 @@ import io.netty.util.ReferenceCountUtil;
 import org.apache.commons.lang.StringUtils;
 import org.b3log.latke.Latkes;
 
+import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,6 +60,8 @@ final class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
     }
 
     private void handleHttpRequest(final ChannelHandlerContext ctx, final HttpRequest req) {
+        //获取请求的IP地址
+        String ip = ((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostAddress();
         if (isWebSocketRequest(req)) {
             final WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(req.uri(), null, true);
             handshaker = wsFactory.newHandshaker(req);
@@ -67,6 +70,7 @@ final class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
             } else {
                 handshaker.handshake(ctx.channel(), req);
                 webSocketSession = new WebSocketSession(ctx);
+                webSocketSession.params.put("ip", ip);
 
                 // 解析查询字符串
                 final QueryStringDecoder queryStringDecoder = new QueryStringDecoder(req.uri());
@@ -142,6 +146,8 @@ final class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
     }
 
     private void handleWebSocketFrame(final ChannelHandlerContext ctx, final WebSocketFrame frame) {
+        String ip = webSocketSession.params.get("ip");
+        System.out.println("[INFO] WebSocket message from " + ip);
         if (frame instanceof CloseWebSocketFrame) {
             handshaker.close(ctx.channel(), (CloseWebSocketFrame) frame.retain());
             CompletableFuture.completedFuture(webSocketSession).thenAcceptAsync(webSocketChannel::onClose);
