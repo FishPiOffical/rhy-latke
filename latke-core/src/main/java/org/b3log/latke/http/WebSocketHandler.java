@@ -61,7 +61,13 @@ final class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
 
     private void handleHttpRequest(final ChannelHandlerContext ctx, final HttpRequest req) {
         //获取请求的IP地址
-        String ip = ((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostAddress();
+        String ip = req.headers().get("X-Forwarded-For");
+        if (ip == null || ip.isEmpty()) {
+            ip = ((InetSocketAddress) ctx.channel().remoteAddress()).getAddress().getHostAddress();
+        } else {
+            // 可能有多个IP，用逗号分隔，取第一个
+            ip = ip.split(",")[0].trim();
+        }
         if (isWebSocketRequest(req)) {
             final WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(req.uri(), null, true);
             handshaker = wsFactory.newHandshaker(req);
