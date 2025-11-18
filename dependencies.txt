@@ -1,0 +1,205 @@
+更新时间：2025/11/18
+项目中很多依赖没有指定版本号，为防止以后出现依赖更新后无法使用的情况，现记录版本号如下：
+
+C:\apache-maven-4.0.0-rc-5\bin\mvn.cmd -Didea.version=2025.2.4 -Dmaven.ext.class.path=C:\Program Files\JetBrains\IntelliJ IDEA 2025.2.4\plugins\maven\lib\maven-event-listener.jar -Djansi.passthrough=true -Dstyle.color=always -Dmaven.repo.local=C:\.m2\repository dependency:tree -f pom.xml
+[WARNING] Unable to find the root directory. Create a .mvn directory in the root directory or add the root="true" attribute on the root project's model to identify it.
+[INFO] Scanning for projects...
+[WARNING]
+[WARNING] 1 problem was encountered while building the effective model for 'org.b3log:latke-core:jar:3.4.15-SNAPSHOT' (use -e to see details)
+[WARNING]
+[WARNING] Total model problems reported: 1
+[WARNING]
+[WARNING] It is highly recommended to fix these problems because they threaten the stability of your build.
+[WARNING]
+[WARNING] For this reason, future Maven versions might no longer support building such malformed projects.
+[WARNING]
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO]
+[INFO] Latke Parent                                                       [pom]
+[INFO] Latke Core                                                         [jar]
+[INFO] Latke Repository (H2)                                              [jar]
+[INFO] Latke Repository (MySQL)                                           [jar]
+[INFO] Loaded 21665 auto-discovered prefixes for remote repository central (prefixes-central.txt)
+[WARNING] Could not transfer metadata com.mycila/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[WARNING] Could not transfer metadata org.apache.maven.plugins/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[WARNING] Could not transfer metadata org.codehaus.mojo/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[WARNING] Could not transfer metadata org.apache.maven.plugins:maven-dependency-plugin/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[INFO]
+[INFO] -----------------------< org.b3log:latke-parent >-----------------------
+[INFO] Building Latke Parent 3.4.15-SNAPSHOT                              [1/4]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[WARNING] com.mycila/maven-metadata.xml failed to transfer from http://0.0.0.0/ during a previous attempt. This failure was cached in the local repository and resolution will not be reattempted until the update interval of maven-default-http-blocker has elapsed or updates are forced. Original error: Could not transfer metadata com.mycila/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[WARNING] org.apache.maven.plugins/maven-metadata.xml failed to transfer from http://0.0.0.0/ during a previous attempt. This failure was cached in the local repository and resolution will not be reattempted until the update interval of maven-default-http-blocker has elapsed or updates are forced. Original error: Could not transfer metadata org.apache.maven.plugins/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[WARNING] org.codehaus.mojo/maven-metadata.xml failed to transfer from http://0.0.0.0/ during a previous attempt. This failure was cached in the local repository and resolution will not be reattempted until the update interval of maven-default-http-blocker has elapsed or updates are forced. Original error: Could not transfer metadata org.codehaus.mojo/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[INFO]
+[INFO] --- dependency:3.9.0:tree (default-cli) @ latke-parent ---
+[INFO] Loaded 74 auto-discovered prefixes for remote repository apache.snapshots (prefixes-apache.snapshots-c1d4c55f9308e5ac18a4069bed41dca64d85c515.txt)
+[INFO] org.b3log:latke-parent:pom:3.4.15-SNAPSHOT
+[INFO] Copying org.b3log:latke-parent:pom:3.4.15-SNAPSHOT to project local repository
+[INFO] Copying org.b3log:latke-parent:pom:consumer:3.4.15-SNAPSHOT to project local repository
+[INFO]
+[INFO] ------------------------< org.b3log:latke-core >------------------------
+[INFO] Building Latke Core 3.4.15-SNAPSHOT                                [2/4]
+[INFO]   from latke-core\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] Could not transfer metadata org.apache.maven.plugins:maven-assembly-plugin/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[WARNING] com.mycila/maven-metadata.xml failed to transfer from http://0.0.0.0/ during a previous attempt. This failure was cached in the local repository and resolution will not be reattempted until the update interval of maven-default-http-blocker has elapsed or updates are forced. Original error: Could not transfer metadata com.mycila/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[WARNING] org.apache.maven.plugins/maven-metadata.xml failed to transfer from http://0.0.0.0/ during a previous attempt. This failure was cached in the local repository and resolution will not be reattempted until the update interval of maven-default-http-blocker has elapsed or updates are forced. Original error: Could not transfer metadata org.apache.maven.plugins/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[WARNING] org.codehaus.mojo/maven-metadata.xml failed to transfer from http://0.0.0.0/ during a previous attempt. This failure was cached in the local repository and resolution will not be reattempted until the update interval of maven-default-http-blocker has elapsed or updates are forced. Original error: Could not transfer metadata org.codehaus.mojo/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[INFO]
+[INFO] --- dependency:3.9.0:tree (default-cli) @ latke-core ---
+[INFO] org.b3log:latke-core:jar:3.4.15-SNAPSHOT
+[INFO] +- io.netty:netty-codec-http:jar:4.1.125.Final:compile
+[INFO] |  +- io.netty:netty-common:jar:4.1.125.Final:compile
+[INFO] |  +- io.netty:netty-buffer:jar:4.1.125.Final:compile
+[INFO] |  +- io.netty:netty-transport:jar:4.1.125.Final:compile
+[INFO] |  \- io.netty:netty-codec:jar:4.1.125.Final:compile
+[INFO] +- io.netty:netty-handler:jar:4.1.125.Final:compile
+[INFO] |  +- io.netty:netty-resolver:jar:4.1.125.Final:compile
+[INFO] |  \- io.netty:netty-transport-native-unix-common:jar:4.1.125.Final:compile
+[INFO] +- io.netty:netty-transport-native-epoll:jar:linux-x86_64:4.1.125.Final:compile
+[INFO] |  \- io.netty:netty-transport-classes-epoll:jar:4.1.125.Final:compile
+[INFO] +- io.netty:netty-transport-native-kqueue:jar:osx-x86_64:4.1.125.Final:compile
+[INFO] |  \- io.netty:netty-transport-classes-kqueue:jar:4.1.125.Final:compile
+[INFO] +- org.apache.tika:tika-core:jar:1.28.3:compile
+[INFO] |  +- org.slf4j:slf4j-api:jar:1.7.36:compile
+[INFO] |  +- jakarta.xml.bind:jakarta.xml.bind-api:jar:2.3.3:compile
+[INFO] |  \- jakarta.activation:jakarta.activation-api:jar:1.2.2:compile
+[INFO] +- org.apache.logging.log4j:log4j-core:jar:2.17.1:compile
+[INFO] |  \- org.apache.logging.log4j:log4j-api:jar:2.17.1:compile
+[INFO] +- org.apache.logging.log4j:log4j-slf4j-impl:jar:2.17.1:compile
+[INFO] +- org.testng:testng:jar:7.1.0:test
+[INFO] |  +- com.beust:jcommander:jar:1.72:test
+[INFO] |  +- com.google.inject:guice:jar:no_aop:4.1.0:test
+[INFO] |  |  +- javax.inject:javax.inject:jar:1:test
+[INFO] |  |  \- aopalliance:aopalliance:jar:1.0:test
+[INFO] |  \- org.yaml:snakeyaml:jar:1.21:test
+[INFO] +- org.freemarker:freemarker:jar:2.3.30:compile
+[INFO] +- commons-io:commons-io:jar:2.7:compile
+[INFO] +- commons-lang:commons-lang:jar:2.6:compile
+[INFO] +- commons-codec:commons-codec:jar:1.14:compile
+[INFO] +- org.apache.commons:commons-exec:jar:1.3:compile
+[INFO] +- org.javassist:javassist:jar:3.26.0-GA:compile
+[INFO] +- redis.clients:jedis:jar:3.2.0:compile
+[INFO] |  \- org.apache.commons:commons-pool2:jar:2.6.2:compile
+[INFO] +- com.google.guava:guava:jar:32.0.0-jre:compile
+[INFO] |  +- com.google.guava:failureaccess:jar:1.0.1:compile
+[INFO] |  +- com.google.guava:listenablefuture:jar:9999.0-empty-to-avoid-conflict-with-guava:compile
+[INFO] |  +- com.google.code.findbugs:jsr305:jar:3.0.2:compile
+[INFO] |  +- org.checkerframework:checker-qual:jar:3.33.0:compile
+[INFO] |  +- com.google.errorprone:error_prone_annotations:jar:2.18.0:compile
+[INFO] |  \- com.google.j2objc:j2objc-annotations:jar:2.8:compile
+[INFO] +- org.mockito:mockito-all:jar:1.9.5:test
+[INFO] \- com.zaxxer:HikariCP:jar:3.4.5:compile
+[INFO]
+[INFO] -------------------< org.b3log:latke-repository-h2 >--------------------
+[INFO] Building Latke Repository (H2) 3.4.15-SNAPSHOT                     [3/4]
+[INFO]   from latke-repository-h2\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] com.mycila/maven-metadata.xml failed to transfer from http://0.0.0.0/ during a previous attempt. This failure was cached in the local repository and resolution will not be reattempted until the update interval of maven-default-http-blocker has elapsed or updates are forced. Original error: Could not transfer metadata com.mycila/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[WARNING] org.apache.maven.plugins/maven-metadata.xml failed to transfer from http://0.0.0.0/ during a previous attempt. This failure was cached in the local repository and resolution will not be reattempted until the update interval of maven-default-http-blocker has elapsed or updates are forced. Original error: Could not transfer metadata org.apache.maven.plugins/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[WARNING] org.codehaus.mojo/maven-metadata.xml failed to transfer from http://0.0.0.0/ during a previous attempt. This failure was cached in the local repository and resolution will not be reattempted until the update interval of maven-default-http-blocker has elapsed or updates are forced. Original error: Could not transfer metadata org.codehaus.mojo/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[INFO]
+[INFO] --- dependency:3.9.0:tree (default-cli) @ latke-repository-h2 ---
+[INFO] org.b3log:latke-repository-h2:jar:3.4.15-SNAPSHOT
+[INFO] +- org.b3log:latke-core:jar:3.4.15-SNAPSHOT:compile
+[INFO] |  +- io.netty:netty-codec-http:jar:4.1.125.Final:compile
+[INFO] |  |  +- io.netty:netty-common:jar:4.1.125.Final:compile
+[INFO] |  |  +- io.netty:netty-buffer:jar:4.1.125.Final:compile
+[INFO] |  |  +- io.netty:netty-transport:jar:4.1.125.Final:compile
+[INFO] |  |  \- io.netty:netty-codec:jar:4.1.125.Final:compile
+[INFO] |  +- io.netty:netty-handler:jar:4.1.125.Final:compile
+[INFO] |  |  +- io.netty:netty-resolver:jar:4.1.125.Final:compile
+[INFO] |  |  \- io.netty:netty-transport-native-unix-common:jar:4.1.125.Final:compile
+[INFO] |  +- io.netty:netty-transport-native-epoll:jar:linux-x86_64:4.1.125.Final:compile
+[INFO] |  |  \- io.netty:netty-transport-classes-epoll:jar:4.1.125.Final:compile
+[INFO] |  +- io.netty:netty-transport-native-kqueue:jar:osx-x86_64:4.1.125.Final:compile
+[INFO] |  |  \- io.netty:netty-transport-classes-kqueue:jar:4.1.125.Final:compile
+[INFO] |  +- org.apache.tika:tika-core:jar:1.28.3:compile
+[INFO] |  |  +- org.slf4j:slf4j-api:jar:1.7.36:compile
+[INFO] |  |  +- jakarta.xml.bind:jakarta.xml.bind-api:jar:2.3.3:compile
+[INFO] |  |  \- jakarta.activation:jakarta.activation-api:jar:1.2.2:compile
+[INFO] |  +- org.apache.logging.log4j:log4j-core:jar:2.17.1:compile
+[INFO] |  |  \- org.apache.logging.log4j:log4j-api:jar:2.17.1:compile
+[INFO] |  +- org.apache.logging.log4j:log4j-slf4j-impl:jar:2.17.1:compile
+[INFO] |  +- org.freemarker:freemarker:jar:2.3.30:compile
+[INFO] |  +- commons-io:commons-io:jar:2.7:compile
+[INFO] |  +- commons-lang:commons-lang:jar:2.6:compile
+[INFO] |  +- commons-codec:commons-codec:jar:1.14:compile
+[INFO] |  +- org.apache.commons:commons-exec:jar:1.3:compile
+[INFO] |  +- org.javassist:javassist:jar:3.26.0-GA:compile
+[INFO] |  +- redis.clients:jedis:jar:3.2.0:compile
+[INFO] |  |  \- org.apache.commons:commons-pool2:jar:2.6.2:compile
+[INFO] |  +- com.google.guava:guava:jar:32.0.0-jre:compile
+[INFO] |  |  +- com.google.guava:failureaccess:jar:1.0.1:compile
+[INFO] |  |  +- com.google.guava:listenablefuture:jar:9999.0-empty-to-avoid-conflict-with-guava:compile
+[INFO] |  |  +- com.google.code.findbugs:jsr305:jar:3.0.2:compile
+[INFO] |  |  +- org.checkerframework:checker-qual:jar:3.33.0:compile
+[INFO] |  |  +- com.google.errorprone:error_prone_annotations:jar:2.18.0:compile
+[INFO] |  |  \- com.google.j2objc:j2objc-annotations:jar:2.8:compile
+[INFO] |  \- com.zaxxer:HikariCP:jar:3.4.5:compile
+[INFO] \- com.h2database:h2:jar:2.1.210:compile
+[INFO]
+[INFO] ------------------< org.b3log:latke-repository-mysql >------------------
+[INFO] Building Latke Repository (MySQL) 3.4.15-SNAPSHOT                  [4/4]
+[INFO]   from latke-repository-mysql\pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] com.mycila/maven-metadata.xml failed to transfer from http://0.0.0.0/ during a previous attempt. This failure was cached in the local repository and resolution will not be reattempted until the update interval of maven-default-http-blocker has elapsed or updates are forced. Original error: Could not transfer metadata com.mycila/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[WARNING] org.apache.maven.plugins/maven-metadata.xml failed to transfer from http://0.0.0.0/ during a previous attempt. This failure was cached in the local repository and resolution will not be reattempted until the update interval of maven-default-http-blocker has elapsed or updates are forced. Original error: Could not transfer metadata org.apache.maven.plugins/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[WARNING] org.codehaus.mojo/maven-metadata.xml failed to transfer from http://0.0.0.0/ during a previous attempt. This failure was cached in the local repository and resolution will not be reattempted until the update interval of maven-default-http-blocker has elapsed or updates are forced. Original error: Could not transfer metadata org.codehaus.mojo/maven-metadata.xml from/to maven-default-http-blocker (http://0.0.0.0/): Blocked mirror for repositories: [aliyun (http://maven.aliyun.com/nexus/content/groups/public, default, releases+snapshots)]
+[INFO]
+[INFO] --- dependency:3.9.0:tree (default-cli) @ latke-repository-mysql ---
+[INFO] org.b3log:latke-repository-mysql:jar:3.4.15-SNAPSHOT
+[INFO] +- org.b3log:latke-core:jar:3.4.15-SNAPSHOT:compile
+[INFO] |  +- io.netty:netty-codec-http:jar:4.1.125.Final:compile
+[INFO] |  |  +- io.netty:netty-common:jar:4.1.125.Final:compile
+[INFO] |  |  +- io.netty:netty-buffer:jar:4.1.125.Final:compile
+[INFO] |  |  +- io.netty:netty-transport:jar:4.1.125.Final:compile
+[INFO] |  |  \- io.netty:netty-codec:jar:4.1.125.Final:compile
+[INFO] |  +- io.netty:netty-handler:jar:4.1.125.Final:compile
+[INFO] |  |  +- io.netty:netty-resolver:jar:4.1.125.Final:compile
+[INFO] |  |  \- io.netty:netty-transport-native-unix-common:jar:4.1.125.Final:compile
+[INFO] |  +- io.netty:netty-transport-native-epoll:jar:linux-x86_64:4.1.125.Final:compile
+[INFO] |  |  \- io.netty:netty-transport-classes-epoll:jar:4.1.125.Final:compile
+[INFO] |  +- io.netty:netty-transport-native-kqueue:jar:osx-x86_64:4.1.125.Final:compile
+[INFO] |  |  \- io.netty:netty-transport-classes-kqueue:jar:4.1.125.Final:compile
+[INFO] |  +- org.apache.tika:tika-core:jar:1.28.3:compile
+[INFO] |  |  +- org.slf4j:slf4j-api:jar:1.7.36:compile
+[INFO] |  |  +- jakarta.xml.bind:jakarta.xml.bind-api:jar:2.3.3:compile
+[INFO] |  |  \- jakarta.activation:jakarta.activation-api:jar:1.2.2:compile
+[INFO] |  +- org.apache.logging.log4j:log4j-core:jar:2.17.1:compile
+[INFO] |  |  \- org.apache.logging.log4j:log4j-api:jar:2.17.1:compile
+[INFO] |  +- org.apache.logging.log4j:log4j-slf4j-impl:jar:2.17.1:compile
+[INFO] |  +- org.freemarker:freemarker:jar:2.3.30:compile
+[INFO] |  +- commons-io:commons-io:jar:2.7:compile
+[INFO] |  +- commons-lang:commons-lang:jar:2.6:compile
+[INFO] |  +- commons-codec:commons-codec:jar:1.14:compile
+[INFO] |  +- org.apache.commons:commons-exec:jar:1.3:compile
+[INFO] |  +- org.javassist:javassist:jar:3.26.0-GA:compile
+[INFO] |  +- redis.clients:jedis:jar:3.2.0:compile
+[INFO] |  |  \- org.apache.commons:commons-pool2:jar:2.6.2:compile
+[INFO] |  +- com.google.guava:guava:jar:32.0.0-jre:compile
+[INFO] |  |  +- com.google.guava:failureaccess:jar:1.0.1:compile
+[INFO] |  |  +- com.google.guava:listenablefuture:jar:9999.0-empty-to-avoid-conflict-with-guava:compile
+[INFO] |  |  +- com.google.code.findbugs:jsr305:jar:3.0.2:compile
+[INFO] |  |  +- org.checkerframework:checker-qual:jar:3.33.0:compile
+[INFO] |  |  +- com.google.errorprone:error_prone_annotations:jar:2.18.0:compile
+[INFO] |  |  \- com.google.j2objc:j2objc-annotations:jar:2.8:compile
+[INFO] |  \- com.zaxxer:HikariCP:jar:3.4.5:compile
+[INFO] \- mysql:mysql-connector-java:jar:8.0.28:compile
+[INFO]    \- com.google.protobuf:protobuf-java:jar:3.11.4:compile
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for Latke Parent 3.4.15-SNAPSHOT:
+[INFO]
+[INFO] Latke Parent ....................................... SUCCESS [  0.601 s]
+[INFO] Latke Core ......................................... SUCCESS [  0.118 s]
+[INFO] Latke Repository (H2) .............................. SUCCESS [  0.026 s]
+[INFO] Latke Repository (MySQL) ........................... SUCCESS [  0.044 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.333 s
+[INFO] Finished at: 2025-11-18T10:37:04+08:00
+[INFO] ------------------------------------------------------------------------
