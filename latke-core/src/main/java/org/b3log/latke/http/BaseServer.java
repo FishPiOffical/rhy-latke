@@ -127,7 +127,7 @@ public abstract class BaseServer {
             final ChannelPipeline pipeline = ch.pipeline();
             pipeline.addLast(new ReadTimeoutHandler(12, TimeUnit.HOURS));
             pipeline.addLast(new WriteTimeoutHandler(12, TimeUnit.HOURS));
-            pipeline.addLast(new HttpServerCodec());
+            pipeline.addLast(new HttpServerCodec(262144, 8192, 8192));
             pipeline.addLast(new HttpObjectAggregator(Integer.MAX_VALUE));
             pipeline.addLast(new WebSocketServerCompressionHandler());
             pipeline.addLast(new WebSocketHandler());
