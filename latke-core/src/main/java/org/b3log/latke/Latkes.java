@@ -715,7 +715,7 @@ public final class Latkes {
         } else {
             LOGGER.log(Level.DEBUG, "Runtime mode is [{}]", getRuntimeMode());
         }
-        LOGGER.log(Level.INFO, "Thank you for using Rhythm build 202512241307");
+        LOGGER.warn("Thank you for using Rhythm, build 202512241307");
 
         final RuntimeDatabase runtimeDatabase = getRuntimeDatabase();
         LOGGER.log(Level.DEBUG, "Runtime database is [{}]", runtimeDatabase);
