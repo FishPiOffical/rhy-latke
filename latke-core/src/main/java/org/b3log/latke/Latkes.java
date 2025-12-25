@@ -31,6 +31,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 /**
  * Latke framework configuration utility facade.
@@ -50,9 +51,13 @@ public final class Latkes {
     private static final Logger LOGGER = LogManager.getLogger(Latkes.class);
 
     /**
-     * Executor service.
+     * Executor service for HTTP请求等通用异步任务.
      */
-    public static final ExecutorService EXECUTOR_SERVICE = Executors.newCachedThreadPool();
+    public static final ExecutorService EXECUTOR_SERVICE = buildExecutorService("request");
+    /**
+     * Executor service for 事件监听执行.
+     */
+    public static final ExecutorService EVENT_EXECUTOR_SERVICE = buildExecutorService("event");
 
     /**
      * Version.
@@ -216,6 +221,31 @@ public final class Latkes {
             LOGGER.log(Level.ERROR, "Checks filesystem failed, exit", e);
             System.exit(-1);
         }
+    }
+
+    private static ExecutorService buildExecutorService(final String purpose) {
+        try {
+            final Object newVirtualThreadPerTaskExecutor = Executors.class.getMethod("newVirtualThreadPerTaskExecutor").invoke(null);
+            LOGGER.log(Level.ERROR, "Using virtual thread per task executor for {}", purpose);
+            return (ExecutorService) newVirtualThreadPerTaskExecutor;
+        } catch (final Throwable ignore) {
+            // Ignore and try reflection-based builder fallback
+        }
+
+        try {
+            final Object builder = Thread.class.getMethod("ofVirtual").invoke(null);
+            final Object factory = builder.getClass().getMethod("factory").invoke(builder);
+            if (factory instanceof ThreadFactory) {
+                final Object executor = Executors.class.getMethod("newThreadPerTaskExecutor", ThreadFactory.class).invoke(null, factory);
+                LOGGER.log(Level.ERROR, "Using virtual thread per task executor for {}", purpose);
+                return (ExecutorService) executor;
+            }
+        } catch (final Throwable e) {
+            LOGGER.log(Level.DEBUG, "Virtual threads not available on current JVM, fallback to cached thread pool for {}", purpose, e);
+        }
+
+        LOGGER.log(Level.ERROR, "Virtual threads unavailable, using cached thread pool for {}", purpose);
+        return Executors.newCachedThreadPool();
     }
 
     /**
@@ -838,6 +868,7 @@ public final class Latkes {
     public static void shutdown() {
         try {
             EXECUTOR_SERVICE.shutdown();
+            EVENT_EXECUTOR_SERVICE.shutdown();
             if (RuntimeCache.REDIS == getRuntimeCache()) {
                 RedisCache.shutdown();
             }

@@ -23,6 +23,7 @@ import org.b3log.latke.Latkes;
 import org.b3log.latke.util.StaticResources;
 
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Http server handler.
@@ -37,6 +38,14 @@ final class ServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
      * Logger.
      */
     private static final Logger LOGGER = LogManager.getLogger(ServerHandler.class);
+    /**
+     * Offload HTTP handling to a shared executor (virtual threads when available).
+     */
+    private static final ExecutorService REQUEST_EXECUTOR = Latkes.EXECUTOR_SERVICE;
+
+    ServerHandler() {
+        super(true); // auto release Netty messages after channelRead0 returns
+    }
 
     @Override
     public void channelReadComplete(final ChannelHandlerContext ctx) {
@@ -45,6 +54,20 @@ final class ServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     @Override
     protected void channelRead0(final ChannelHandlerContext ctx, final FullHttpRequest fullHttpRequest) {
+        fullHttpRequest.retain(); // keep the request alive for async handling
+        REQUEST_EXECUTOR.submit(() -> {
+            try {
+                handleRequest(ctx, fullHttpRequest);
+            } catch (final Exception e) {
+                LOGGER.error("Handle HTTP request failed", e);
+                ctx.close();
+            } finally {
+                fullHttpRequest.release();
+            }
+        });
+    }
+
+    private void handleRequest(final ChannelHandlerContext ctx, final FullHttpRequest fullHttpRequest) {
         setSchemeHostPort(fullHttpRequest);
         final Request request = new Request(ctx, fullHttpRequest);
         final HttpResponse res = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);

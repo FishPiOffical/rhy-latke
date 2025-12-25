@@ -54,7 +54,7 @@ public class EventManager {
             return null; // XXX: Our future????
         });
 
-        Latkes.EXECUTOR_SERVICE.execute(futureTask);
+        Latkes.EVENT_EXECUTOR_SERVICE.execute(futureTask);
 
         return futureTask;
     }
