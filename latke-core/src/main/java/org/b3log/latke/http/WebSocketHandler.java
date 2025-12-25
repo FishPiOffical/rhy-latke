@@ -152,8 +152,6 @@ final class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
     }
 
     private void handleWebSocketFrame(final ChannelHandlerContext ctx, final WebSocketFrame frame) {
-        String ip = webSocketSession.params.get("ip");
-        System.out.println("[INFO] WebSocket message from " + ip);
         if (frame instanceof CloseWebSocketFrame) {
             handshaker.close(ctx.channel(), (CloseWebSocketFrame) frame.retain());
             CompletableFuture.completedFuture(webSocketSession).thenAcceptAsync(webSocketChannel::onClose);
