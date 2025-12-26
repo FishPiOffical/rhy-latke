@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 /**
  * Websocket handler.
@@ -41,6 +42,10 @@ final class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
     private WebSocketServerHandshaker handshaker;
     private WebSocketSession webSocketSession;
     private WebSocketChannel webSocketChannel;
+    /**
+     * Offload websocket callbacks to virtual threads (or fallback executor).
+     */
+    private static final Executor WS_EXECUTOR = Latkes.EXECUTOR_SERVICE;
 
     @Override
     protected void channelRead0(final ChannelHandlerContext ctx, final Object msg) {
@@ -93,7 +98,7 @@ final class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
                 handleCookie(req, webSocketSession);
 
                 webSocketSession.webSocketChannel = webSocketChannel;
-                CompletableFuture.completedFuture(webSocketSession).thenAcceptAsync(webSocketChannel::onConnect, ctx.executor());
+                CompletableFuture.completedFuture(webSocketSession).thenAcceptAsync(webSocketChannel::onConnect, WS_EXECUTOR);
             }
         } else {
             ReferenceCountUtil.retain(req);
@@ -154,7 +159,7 @@ final class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
     private void handleWebSocketFrame(final ChannelHandlerContext ctx, final WebSocketFrame frame) {
         if (frame instanceof CloseWebSocketFrame) {
             handshaker.close(ctx.channel(), (CloseWebSocketFrame) frame.retain());
-            CompletableFuture.completedFuture(webSocketSession).thenAcceptAsync(webSocketChannel::onClose);
+            CompletableFuture.completedFuture(webSocketSession).thenAcceptAsync(webSocketChannel::onClose, WS_EXECUTOR);
             return;
         }
         if (frame instanceof PingWebSocketFrame) {
@@ -165,12 +170,12 @@ final class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
             final RuntimeException throwable = new UnsupportedOperationException("Unsupported frame type [" + frame.getClass().getName() + "]");
             handshaker.close(ctx.channel(), new CloseWebSocketFrame());
             CompletableFuture.completedFuture(new WebSocketChannel.Error(throwable, webSocketSession))
-                    .thenAcceptAsync(webSocketChannel::onError, ctx.executor());
+                    .thenAcceptAsync(webSocketChannel::onError, WS_EXECUTOR);
             return;
         }
 
         CompletableFuture.completedFuture(new WebSocketChannel.Message(((TextWebSocketFrame) frame).text(), webSocketSession))
-                .thenAcceptAsync(webSocketChannel::onMessage, ctx.executor());
+                .thenAcceptAsync(webSocketChannel::onMessage, WS_EXECUTOR);
     }
 
     private boolean isWebSocketRequest(final HttpRequest req) {
@@ -185,7 +190,7 @@ final class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
     public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause) {
         if (null != webSocketSession && null != webSocketChannel) {
             CompletableFuture.completedFuture(new WebSocketChannel.Error(cause, webSocketSession))
-                    .thenAcceptAsync(webSocketChannel::onError, ctx.executor());
+                    .thenAcceptAsync(webSocketChannel::onError, WS_EXECUTOR);
         }
 
         ctx.close();
@@ -194,7 +199,7 @@ final class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     public void channelInactive(final ChannelHandlerContext ctx) {
         if (null != webSocketSession && null != webSocketChannel) {
-            CompletableFuture.completedFuture(webSocketSession).thenAcceptAsync(webSocketChannel::onClose);
+            CompletableFuture.completedFuture(webSocketSession).thenAcceptAsync(webSocketChannel::onClose, WS_EXECUTOR);
         }
         ctx.fireChannelInactive();
     }
