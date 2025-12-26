@@ -226,7 +226,7 @@ public final class Latkes {
     private static ExecutorService buildExecutorService(final String purpose) {
         try {
             final Object newVirtualThreadPerTaskExecutor = Executors.class.getMethod("newVirtualThreadPerTaskExecutor").invoke(null);
-            LOGGER.log(Level.ERROR, "Using virtual thread per task executor for {}", purpose);
+            LOGGER.log(Level.WARN, "Using virtual thread per task executor for {}", purpose);
             return (ExecutorService) newVirtualThreadPerTaskExecutor;
         } catch (final Throwable ignore) {
             // Ignore and try reflection-based builder fallback
@@ -237,14 +237,14 @@ public final class Latkes {
             final Object factory = builder.getClass().getMethod("factory").invoke(builder);
             if (factory instanceof ThreadFactory) {
                 final Object executor = Executors.class.getMethod("newThreadPerTaskExecutor", ThreadFactory.class).invoke(null, factory);
-                LOGGER.log(Level.ERROR, "Using virtual thread per task executor for {}", purpose);
+                LOGGER.log(Level.WARN, "Using virtual thread per task executor for {}", purpose);
                 return (ExecutorService) executor;
             }
         } catch (final Throwable e) {
-            LOGGER.log(Level.DEBUG, "Virtual threads not available on current JVM, fallback to cached thread pool for {}", purpose, e);
+            LOGGER.log(Level.WARN, "Virtual threads not available on current JVM, fallback to cached thread pool for {}", purpose, e);
         }
 
-        LOGGER.log(Level.ERROR, "Virtual threads unavailable, using cached thread pool for {}", purpose);
+        LOGGER.log(Level.WARN, "Virtual threads unavailable, using cached thread pool for {}", purpose);
         return Executors.newCachedThreadPool();
     }
 
