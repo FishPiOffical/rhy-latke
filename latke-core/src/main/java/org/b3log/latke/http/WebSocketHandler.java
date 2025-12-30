@@ -19,6 +19,7 @@ import io.netty.handler.codec.http.QueryStringDecoder;
 import io.netty.handler.codec.http.cookie.Cookie;
 import io.netty.handler.codec.http.cookie.ServerCookieDecoder;
 import io.netty.handler.codec.http.websocketx.*;
+import io.netty.handler.codec.http.websocketx.WebSocketFrameAggregator;
 import io.netty.util.ReferenceCountUtil;
 import org.apache.commons.lang.StringUtils;
 import org.b3log.latke.Latkes;
@@ -47,6 +48,11 @@ final class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
      */
     private static final Executor WS_EXECUTOR = Latkes.EXECUTOR_SERVICE;
 
+    /**
+     * 最大 WebSocket 帧大小 (10MB)，支持长消息传输
+     */
+    private static final int MAX_FRAME_SIZE = 10 * 1024 * 1024;
+
     @Override
     protected void channelRead0(final ChannelHandlerContext ctx, final Object msg) {
         if (msg instanceof HttpRequest) {
@@ -74,12 +80,15 @@ final class WebSocketHandler extends SimpleChannelInboundHandler<Object> {
             ip = ip.split(",")[0].trim();
         }
         if (isWebSocketRequest(req)) {
-            final WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(req.uri(), null, true);
+            final WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(
+                    req.uri(), null, true, MAX_FRAME_SIZE);
             handshaker = wsFactory.newHandshaker(req);
             if (handshaker == null) {
                 WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(ctx.channel());
             } else {
                 handshaker.handshake(ctx.channel(), req);
+                // 添加帧聚合器，支持分片消息的自动合并
+                ctx.pipeline().addBefore(ctx.name(), "wsFrameAggregator", new WebSocketFrameAggregator(MAX_FRAME_SIZE));
                 webSocketSession = new WebSocketSession(ctx);
                 webSocketSession.params.put("ip", ip);
 
