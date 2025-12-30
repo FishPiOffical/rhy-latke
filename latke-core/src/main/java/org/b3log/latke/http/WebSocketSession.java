@@ -11,12 +11,16 @@
  */
 package org.b3log.latke.http;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.ContinuationWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.b3log.latke.Latkes;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -30,6 +34,11 @@ import java.util.Set;
  * @since 3.0.2
  */
 public class WebSocketSession {
+
+    /**
+     * 分片阈值 (64KB)，超过此大小的消息将自动分片发送
+     */
+    private static final int FRAGMENT_THRESHOLD = 64 * 1024;
 
     String id;
     ChannelHandlerContext ctx;
@@ -46,7 +55,40 @@ public class WebSocketSession {
     }
 
     public void sendText(final String text) {
-        ctx.writeAndFlush(new TextWebSocketFrame(text));
+        final byte[] bytes = text.getBytes(StandardCharsets.UTF_8);
+        if (bytes.length <= FRAGMENT_THRESHOLD) {
+            // 小消息直接发送
+            ctx.writeAndFlush(new TextWebSocketFrame(text));
+            return;
+        }
+        // 大消息分片发送
+        sendFragmented(bytes);
+    }
+
+    /**
+     * 分片发送大消息
+     */
+    private void sendFragmented(final byte[] bytes) {
+        final ByteBuf buffer = Unpooled.wrappedBuffer(bytes);
+        boolean first = true;
+        try {
+            while (buffer.readableBytes() > 0) {
+                final int len = Math.min(FRAGMENT_THRESHOLD, buffer.readableBytes());
+                final ByteBuf chunk = buffer.readSlice(len).retain();
+                final boolean last = buffer.readableBytes() == 0;
+                if (first) {
+                    // 第一帧: opcode=1 (text), FIN=last
+                    ctx.write(new TextWebSocketFrame(last, 0, chunk));
+                    first = false;
+                } else {
+                    // 后续帧: opcode=0 (continuation), FIN=last
+                    ctx.write(new ContinuationWebSocketFrame(last, 0, chunk));
+                }
+            }
+            ctx.flush();
+        } finally {
+            buffer.release();
+        }
     }
 
     public void close() {
